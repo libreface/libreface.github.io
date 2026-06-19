@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LibreFace — Open-Source Facial Expression Analysis Toolkit</title>
+<meta name="description" content="LibreFace 2.0: A Generalizable Facial Expression Analysis Toolkit Leveraging Synthetic Data. Open-source AU detection, AU intensity, expression recognition, and gaze estimation." />
+<link rel="icon" type="image/png" href="assets/img/libreface_logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Noto+Sans:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <img src="assets/img/libreface_logo.png" alt="LibreFace logo" />
+      <span>LibreFace</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#abstract">Abstract</a></li>
+      <li><a href="#pipeline">Method</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#gaze">Gaze</a></li>
+      <li><a href="#usage">Usage</a></li>
+      <li><a href="#citation">Citation</a></li>
+      <li><a class="nav-cta" href="https://github.com/ihp-lab/LibreFace" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header id="top" class="hero">
+  <div class="hero-inner">
+    <p class="venue-line">IEEE International Conference on Automatic Face and Gesture Recognition (FG), 2026</p>
+    <h1>LibreFace 2.0:<br>A Generalizable Facial Expression Analysis Toolkit<br>Leveraging Synthetic Data</h1>
+
+    <p class="authors">
+      <a href="https://www.linkedin.com/in/xulang-guan-3040a6268/" target="_blank" rel="noopener">Xulang Guan</a><sup>1,*</sup>,
+      <a href="https://ashutoshchaubey.com/" target="_blank" rel="noopener">Ashutosh Chaubey</a><sup>1,*</sup>,
+      <a href="https://cv.maxi.su/" target="_blank" rel="noopener">Maksim Siniukov</a><sup>1</sup>,
+      <a href="https://www.linkedin.com/in/belle-hsieh/" target="_blank" rel="noopener">Annabelle Hsieh</a><sup>2</sup>,
+      <a href="https://scholar.google.com/citations?user=jqEgpukAAAAJ&hl=en" target="_blank" rel="noopener">Zongjian Li</a><sup>1</sup>,
+      <a href="https://people.ict.usc.edu/~soleymani/" target="_blank" rel="noopener">Mohammad Soleymani</a><sup>1</sup>
+    </p>
+    <p class="affiliations">
+      <sup>1</sup>Institute for Creative Technologies, University of Southern California &nbsp;&nbsp;
+      <sup>2</sup>University of Pennsylvania
+    </p>
+    <p class="equal-note">* Equal contribution</p>
+
+    <div class="cta-row">
+      <a class="btn btn-paper" href="https://ieeexplore.ieee.org/document/11556988" target="_blank" rel="noopener">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15 3v4h4" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12h6M9 15h6M9 9h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Paper
+      </a>
+      <a class="btn btn-code" href="https://github.com/ihp-lab/LibreFace" target="_blank" rel="noopener">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 0.5C5.65 0.5 0.5 5.65 0.5 12c0 5.1 3.29 9.41 7.86 10.94 0.57 0.1 0.78-0.25 0.78-0.55 0-0.27-0.01-1.17-0.02-2.12-3.2 0.7-3.87-1.36-3.87-1.36-0.52-1.33-1.28-1.69-1.28-1.69-1.04-0.71 0.08-0.69 0.08-0.69 1.16 0.08 1.77 1.19 1.77 1.19 1.02 1.75 2.68 1.25 3.33 0.95 0.1-0.74 0.4-1.25 0.72-1.54-2.55-0.29-5.23-1.28-5.23-5.69 0-1.26 0.45-2.29 1.19-3.1-0.12-0.29-0.52-1.46 0.11-3.05 0 0 0.97-0.31 3.18 1.18 0.92-0.26 1.9-0.39 2.88-0.39 0.98 0 1.96 0.13 2.88 0.39 2.21-1.49 3.18-1.18 3.18-1.18 0.63 1.59 0.23 2.76 0.11 3.05 0.74 0.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.4-5.25 5.68 0.41 0.36 0.78 1.06 0.78 2.15 0 1.55-0.01 2.8-0.01 3.18 0 0.31 0.21 0.66 0.79 0.55C20.21 21.4 23.5 17.09 23.5 12c0-6.35-5.15-11.5-11.5-11.5z"/></svg>
+        Code
+      </a>
+      <a class="btn btn-pypi" href="https://pypi.org/project/libreface/" target="_blank" rel="noopener">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l8 4v4l-8 4-8-4V6l8-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 14l8 4 8-4M4 10l8 4 8-4" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        PyPI
+      </a>
+      <a class="btn btn-wacv" href="https://arxiv.org/abs/2308.10713" target="_blank" rel="noopener">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15 3v4h4" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12h6M9 15h6M9 9h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        LibreFace v1 Paper
+      </a>
+      <a class="btn btn-bibtex" href="#citation">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 8h2M7 12h2M7 16h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M11 8c3 1 3 6 0 7M15 8c3 1 3 6 0 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        BibTeX
+      </a>
+    </div>
+  </div>
+
+  <div class="tldr container">
+    <p><strong>💡 TL;DR</strong> — LibreFace 2.0 is an open-source toolkit for AU intensity estimation, AU detection, facial expression recognition, and gaze estimation, trained on real data augmented with a demographically diverse synthetic dataset (240K+ frames, 708 identities). It achieves state-of-the-art accuracy on DISFA, BP4D, and Gaze360, reduces fairness gaps across gender, age, and race on RAF-AU and AffWild2, and runs in real time (118.9 FPS on GPU) with a lightweight footprint suitable for CPU-only deployment.</p>
+  </div>
+</header>
+
+<main>
+
+  <section id="abstract" class="section">
+    <div class="container">
+      <h2>📝 Abstract</h2>
+      <p class="abstract-text">
+        Facial expression analysis is central to social AI and human–computer interaction, but the performance and
+        generalizability of existing toolkits are limited by the data they are trained on — particularly for action
+        unit (AU) detection, which requires costly per-frame annotations. <strong>LibreFace 2.0</strong> leverages
+        recent advances in face generation and motion retargeting to enrich AU datasets with broader demographic
+        coverage. We use <strong>Stable Diffusion 3.5</strong> to synthesize diverse identities spanning age, gender,
+        and race, and retarget real AU motion from annotated datasets onto these generated identities with
+        <strong>LivePortrait</strong>. Training on this large-scale, demographically diverse dataset yields
+        consistent improvements in benchmark performance and enhances fairness across demographic groups. Beyond AU
+        detection and intensity estimation, LibreFace 2.0 also supports facial expression recognition and gaze
+        estimation through lightweight models that achieve competitive accuracy with substantially fewer parameters,
+        enabling real-time, efficient inference.
+      </p>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-num">240K+</div>
+          <div class="stat-label">synthetic AU-labeled frames</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">708</div>
+          <div class="stat-label">unique synthetic identities</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">4</div>
+          <div class="stat-label">tasks: AU intensity, AU detection, expression, gaze</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">118.9</div>
+          <div class="stat-label">FPS on GPU — fastest among compared toolkits</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pipeline" class="section alt">
+    <div class="container">
+      <h2>🧬 System &amp; Data Generation Pipeline</h2>
+      <p class="section-lede">
+        LibreFace covers the full pipeline from raw input to facial attributes — face detection and alignment,
+        landmark extraction, and a lightweight deep model that jointly predicts AU intensity, AU presence,
+        expression, and gaze.
+      </p>
+      <figure class="figure">
+        <img src="assets/img/System.png" alt="LibreFace system pipeline: input, algorithm, output stages" />
+        <figcaption>End-to-end LibreFace pipeline — from disk/webcam/stream input to AU, expression, and gaze output.</figcaption>
+      </figure>
+
+      <p class="section-lede" style="margin-top: 3rem;">
+        To close demographic gaps in real AU datasets like DISFA and BP4D, LibreFace 2.0 generates synthetic
+        training data: GPT-4o-authored prompts drive Stable Diffusion 3.5 to create diverse source identities, which
+        are then animated with LivePortrait using real AU-labeled driving videos — transferring ground-truth AU
+        labels onto the new synthetic subjects.
+      </p>
+      <figure class="figure">
+        <img src="assets/img/data_sample_grid_libreface.png" alt="Grid of real driving frames and synthetically generated identities reproducing the same AU motion" />
+        <figcaption>Real driving frames (left) alongside synthetic identities reproducing the same AU motion — spanning diverse ages, genders, and races.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="results" class="section">
+    <div class="container">
+      <h2>📊 Results</h2>
+
+      <div class="results-grid">
+        <figure class="figure">
+          <img src="assets/img/auIntensityAvgPCC.png" alt="AU Intensity Estimation Average PCC on DISFA" />
+          <figcaption>AU intensity estimation (avg. PCC, 12 AUs of DISFA, 5-fold CV) — LibreFace 2.0 sets a new state of the art.</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="assets/img/affwild2Fairness.png" alt="AU Detection Fairness Comparison on AffWild2" />
+          <figcaption>AU detection fairness on AffWild2 — highest F1 <em>and</em> lowest standard deviation across gender and racial groups.</figcaption>
+        </figure>
+      </div>
+
+      <h3 class="subhead">⚖️ AU Detection Fairness on RAF-AU (F1)</h3>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>F</th><th>M</th><th>SD ↓</th>
+              <th>Child</th><th>Teen</th><th>Adult</th><th>Old</th><th>SD ↓</th>
+              <th>SA</th><th>LA</th><th>EA</th><th>AS</th><th>AA</th><th>SD ↓</th>
+              <th>Avg. F1</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>OpenFace 2.0</td>
+              <td>32.6</td><td>31.7</td><td>0.7</td>
+              <td>29.9</td><td>32.4</td><td>33.0</td><td>27.8</td><td>2.4</td>
+              <td>30.4</td><td>34.1</td><td>32.5</td><td>33.6</td><td>25.8</td><td>3.0</td>
+              <td>32.2</td>
+            </tr>
+            <tr>
+              <td>LibreFace 1.0</td>
+              <td>42.5</td><td>42.5</td><td>0.0</td>
+              <td>39.0</td><td>41.1</td><td>44.1</td><td>35.6</td><td>3.6</td>
+              <td>41.5</td><td>43.0</td><td>43.6</td><td>43.7</td><td>32.3</td><td>4.3</td>
+              <td>42.6</td>
+            </tr>
+            <tr class="highlight-row">
+              <td>LibreFace 2.0 (ours)</td>
+              <td>43.9</td><td>44.4</td><td>0.3</td>
+              <td>41.4</td><td>41.4</td><td>45.4</td><td>37.5</td><td>3.2</td>
+              <td>43.4</td><td>45.6</td><td>45.0</td><td>45.6</td><td>36.0</td><td>3.6</td>
+              <td><strong>44.2</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note">Gender: F/M · Age: Child/Teen/Adult/Old · Race: SA = South Asian, LA = Latino, EA = European American, AS = Asian, AA = African American. SD = standard deviation across groups (lower is fairer).</p>
+
+      <h3 class="subhead">🧩 Toolkit Comparison</h3>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Toolkit</th><th>Landmarks</th><th>AU Intensity</th><th>AU Detection</th><th>Expression</th><th>Gaze</th><th>Train Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>PyFeat</td><td>✓</td><td>✗</td><td>✓</td><td>✓</td><td>✗</td><td>Real</td></tr>
+            <tr><td>OpenFace 2.0</td><td>✓</td><td>✓</td><td>✓</td><td>✗</td><td>✓</td><td>Real</td></tr>
+            <tr><td>OpenFace 3.0</td><td>✓</td><td>✗</td><td>✓</td><td>✓</td><td>✓</td><td>Real</td></tr>
+            <tr><td>LibreFace 1.0</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✗</td><td>Real</td></tr>
+            <tr class="highlight-row"><td>LibreFace 2.0 (ours)</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>Synthetic + Real</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="gaze" class="section alt">
+    <div class="container">
+      <h2>👀 Gaze Estimation <span class="new-tag">new in 2.0</span></h2>
+      <p class="section-lede">
+        A lightweight MediaPipe-landmark-based MLP predicts gaze yaw and pitch directly from an aligned face image —
+        returned alongside AU and expression outputs by default, or available standalone via
+        <code>estimate_gaze</code> / <code>estimate_gaze_video</code>.
+      </p>
+      <figure class="figure">
+        <img src="assets/img/gaze_bias_example.png" alt="Gaze prediction example comparing biased, bias-corrected, and ground-truth gaze on a Gaze360 frame" />
+        <figcaption>Gaze360 example: biased raw prediction (red) vs. bias-corrected prediction (green) vs. ground truth (blue).</figcaption>
+      </figure>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Model</th><th>Yaw MAE ↓</th><th>Pitch MAE ↓</th><th>Avg. MAE ↓</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>OpenFace 2.0</td><td>–</td><td>–</td><td>26.7°</td></tr>
+            <tr><td>OpenFace 3.0</td><td>–</td><td>–</td><td>13.7°</td></tr>
+            <tr class="highlight-row"><td>LibreFace 2.0 (ours)</td><td>9.86°</td><td>8.94°</td><td><strong>9.40°</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note">MAE in degrees on Gaze360. LibreFace 2.0 substantially outperforms OpenFace 2.0 and matches OpenFace 3.0 with a far lighter model.</p>
+    </div>
+  </section>
+
+  <section id="usage" class="section">
+    <div class="container">
+      <h2>🚀 Get Started</h2>
+      <p class="section-lede">Install from PyPI and run AU, expression, and gaze inference in a few lines of Python.</p>
+
+      <div class="code-tabs">
+        <div class="code-block">
+          <div class="code-block-header">
+            <span>Install</span>
+            <button class="copy-btn" data-target="install-code">Copy</button>
+          </div>
+          <pre id="install-code"><code>conda create -n libreface_env python=3.9
+conda activate libreface_env
+pip install --upgrade libreface</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span>Python</span>
+            <button class="copy-btn" data-target="python-code">Copy</button>
+          </div>
+          <pre id="python-code"><code>import libreface
+
+detected_attributes = libreface.get_facial_attributes(
+    "path/to/your_image_or_video"
+)
+# returns AU intensities, AU detections,
+# facial expression, and gaze_yaw / gaze_pitch</code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span>Command line</span>
+            <button class="copy-btn" data-target="cli-code">Copy</button>
+          </div>
+          <pre id="cli-code"><code>libreface --input_path="path/to/your_image_or_video"</code></pre>
+        </div>
+      </div>
+
+      <p class="more-usage">
+        See the <a href="https://github.com/ihp-lab/LibreFace#readme" target="_blank" rel="noopener">README</a>
+        for batch sizing, custom devices, the standalone gaze-only API, the .NET / ONNX / OpenSense derivative
+        tools, and full training instructions.
+      </p>
+    </div>
+  </section>
+
+  <section id="citation" class="section alt">
+    <div class="container">
+      <h2>📚 Citation</h2>
+      <p class="section-lede">If you use LibreFace in your research, please cite both papers:</p>
+
+      <div class="code-block citation-block">
+        <div class="code-block-header">
+          <span>LibreFace 2.0 (FG 2026)</span>
+          <button class="copy-btn" data-target="bibtex-2">Copy</button>
+        </div>
+        <pre id="bibtex-2"><code>@INPROCEEDINGS{11556988,
+  author={Guan, Xulang and Chaubey, Ashutosh and Siniukov, Maksim and Hsieh, Annabelle and Li, Zongjian and Soleymani, Mohammad},
+  booktitle={2026 IEEE 20th International Conference on Automatic Face and Gesture Recognition (FG)},
+  title={LibreFace 2.0: A Generalizable Facial Expression Analysis Toolkit Leveraging Synthetic Data},
+  year={2026},
+  volume={},
+  number={},
+  pages={1-10},
+  keywords={Modeling;Printing;Facial expressions;Aging;Conferences;Signal detection;Action units;Training;Computers;Faces},
+  doi={10.1109/FG67764.2026.11556988}}</code></pre>
+      </div>
+
+      <div class="code-block citation-block">
+        <div class="code-block-header">
+          <span>LibreFace (WACV 2024)</span>
+          <button class="copy-btn" data-target="bibtex-1">Copy</button>
+        </div>
+        <pre id="bibtex-1"><code>@InProceedings{Chang_2024_WACV,
+    author    = {Chang, Di and Yin, Yufeng and Li, Zongjian and Tran, Minh and Soleymani, Mohammad},
+    title     = {LibreFace: An Open-Source Toolkit for Deep Facial Expression Analysis},
+    booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+    month     = {January},
+    year      = {2024},
+    pages     = {8205-8215}
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>
+      <p><strong>📬 Contact:</strong> Ashutosh Chaubey (<a href="mailto:achaubey@usc.edu">achaubey@usc.edu</a>) ·
+        Mohammad Soleymani (<a href="mailto:soleymani@ict.usc.edu">soleymani@ict.usc.edu</a>)</p>
+      <p class="ack">
+        Sponsored by the U.S. Army Research Laboratory (ARL) under contract W911NF-14-D-0005 and the Army Research
+        Office under Cooperative Agreement W911NF-25-2-0040, with support from NSF Grant IIS-2211550 and NIH/NIMH
+        Award R61MH135407. The views expressed are those of the authors and do not necessarily reflect official
+        positions of the sponsors.
+      </p>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/ihp-lab/LibreFace" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://pypi.org/project/libreface/" target="_blank" rel="noopener">PyPI</a>
+      <a href="https://ieeexplore.ieee.org/document/11556988" target="_blank" rel="noopener">Paper</a>
+      <a href="https://ict.usc.edu/" target="_blank" rel="noopener">ICT, USC</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
