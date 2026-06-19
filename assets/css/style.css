@@ -193,6 +193,13 @@ a:hover { text-decoration: underline; }
 .btn-wacv   { background: #1f6f54; }
 .btn-bibtex { background: #5b4b8a; }
 
+.prior-work-note {
+  text-align: center;
+  font-size: 0.86rem;
+  color: var(--text-dim);
+  margin: 0 0 36px;
+}
+
 .tldr {
   margin: 0 auto 56px;
   padding: 22px 26px;
