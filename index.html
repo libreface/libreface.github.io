@@ -147,55 +147,14 @@
     <div class="container">
       <h2>📊 Results</h2>
 
-      <div class="results-grid">
-        <figure class="figure">
-          <img src="assets/img/auIntensityAvgPCC.png" alt="AU Intensity Estimation Average PCC on DISFA" />
-          <figcaption>AU intensity estimation (avg. PCC, 12 AUs of DISFA, 5-fold CV) — LibreFace 2.0 sets a new state of the art.</figcaption>
-        </figure>
-        <figure class="figure">
-          <img src="assets/img/affwild2Fairness.png" alt="AU Detection Fairness Comparison on AffWild2" />
-          <figcaption>AU detection fairness on AffWild2 — highest F1 <em>and</em> lowest standard deviation across gender and racial groups.</figcaption>
-        </figure>
-      </div>
-
-      <h3 class="subhead">⚖️ AU Detection Fairness on RAF-AU (F1)</h3>
-      <div class="table-wrap">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Model</th>
-              <th>F</th><th>M</th><th>SD ↓</th>
-              <th>Child</th><th>Teen</th><th>Adult</th><th>Old</th><th>SD ↓</th>
-              <th>SA</th><th>LA</th><th>EA</th><th>AS</th><th>AA</th><th>SD ↓</th>
-              <th>Avg. F1</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>OpenFace 2.0</td>
-              <td>32.6</td><td>31.7</td><td>0.7</td>
-              <td>29.9</td><td>32.4</td><td>33.0</td><td>27.8</td><td>2.4</td>
-              <td>30.4</td><td>34.1</td><td>32.5</td><td>33.6</td><td>25.8</td><td>3.0</td>
-              <td>32.2</td>
-            </tr>
-            <tr>
-              <td>LibreFace 1.0</td>
-              <td>42.5</td><td>42.5</td><td>0.0</td>
-              <td>39.0</td><td>41.1</td><td>44.1</td><td>35.6</td><td>3.6</td>
-              <td>41.5</td><td>43.0</td><td>43.6</td><td>43.7</td><td>32.3</td><td>4.3</td>
-              <td>42.6</td>
-            </tr>
-            <tr class="highlight-row">
-              <td>LibreFace 2.0 (ours)</td>
-              <td>43.9</td><td>44.4</td><td>0.3</td>
-              <td>41.4</td><td>41.4</td><td>45.4</td><td>37.5</td><td>3.2</td>
-              <td>43.4</td><td>45.6</td><td>45.0</td><td>45.6</td><td>36.0</td><td>3.6</td>
-              <td><strong>44.2</strong></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="table-note">Gender: F/M · Age: Child/Teen/Adult/Old · Race: SA = South Asian, LA = Latino, EA = European American, AS = Asian, AA = African American. SD = standard deviation across groups (lower is fairer).</p>
+      <figure class="figure">
+        <img src="assets/img/auIntensityAvgPCC.png" alt="AU Intensity Estimation Average PCC on DISFA" />
+        <figcaption>AU intensity estimation (avg. PCC, 12 AUs of DISFA, 5-fold CV) — LibreFace 2.0 sets a new state of the art.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="assets/img/affwild2Fairness.png" alt="AU Detection Fairness Comparison on AffWild2" />
+        <figcaption>AU detection fairness on AffWild2 — highest F1 <em>and</em> lowest standard deviation across gender and racial groups.</figcaption>
+      </figure>
 
       <h3 class="subhead">🧩 Toolkit Comparison</h3>
       <div class="table-wrap">
@@ -214,6 +173,49 @@
           </tbody>
         </table>
       </div>
+
+      <h3 class="subhead">⚡ Inference Speed (FPS)</h3>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Model</th><th>CPU FPS ↑</th><th>GPU FPS ↑</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>OpenFace 3.0</td><td>9.6</td><td>28.6</td></tr>
+            <tr><td>LibreFace 1.0</td><td>24.7</td><td>100.8</td></tr>
+            <tr class="highlight-row"><td>LibreFace 2.0 (ours)</td><td><strong>28.6</strong></td><td><strong>118.9</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="speed-chart">
+        <div class="speed-row">
+          <span class="speed-label">OpenFace 3.0</span>
+          <div class="speed-bars">
+            <div class="speed-bar speed-bar-cpu" style="width: 8%;"><span>9.6 CPU</span></div>
+            <div class="speed-bar speed-bar-gpu" style="width: 24%;"><span>28.6 GPU</span></div>
+          </div>
+        </div>
+        <div class="speed-row">
+          <span class="speed-label">LibreFace 1.0</span>
+          <div class="speed-bars">
+            <div class="speed-bar speed-bar-cpu" style="width: 21%;"><span>24.7 CPU</span></div>
+            <div class="speed-bar speed-bar-gpu" style="width: 85%;"><span>100.8 GPU</span></div>
+          </div>
+        </div>
+        <div class="speed-row">
+          <span class="speed-label">LibreFace 2.0 (ours)</span>
+          <div class="speed-bars">
+            <div class="speed-bar speed-bar-cpu speed-bar-highlight" style="width: 24%;"><span>28.6 CPU</span></div>
+            <div class="speed-bar speed-bar-gpu speed-bar-highlight" style="width: 100%;"><span>118.9 GPU</span></div>
+          </div>
+        </div>
+        <div class="speed-legend">
+          <span><i class="legend-swatch legend-cpu"></i> CPU FPS</span>
+          <span><i class="legend-swatch legend-gpu"></i> GPU FPS</span>
+        </div>
+      </div>
+      <p class="table-note">FPS measured on an AMD EPYC 9554 64-core CPU and a single NVIDIA L40S GPU, excluding pre-/post-processing. LibreFace 2.0 is the fastest toolkit on both CPU and GPU.</p>
     </div>
   </section>
 

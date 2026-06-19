@@ -300,13 +300,6 @@ hr.rule {
   text-align: left;
 }
 
-.results-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  margin-bottom: 40px;
-}
-
 .subhead {
   font-family: var(--serif);
   font-size: 1.08rem;
@@ -365,6 +358,77 @@ hr.rule {
   font-size: 0.82rem;
   margin: 14px 0 0;
 }
+
+/* Speed comparison chart */
+.speed-chart {
+  margin-top: 22px;
+  padding: 20px 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.speed-row {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.speed-row:last-of-type { margin-bottom: 4px; }
+
+.speed-label {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text);
+  text-align: right;
+}
+
+.speed-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.speed-bar {
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  min-width: fit-content;
+  white-space: nowrap;
+  padding: 0 8px;
+  transition: width 0.3s ease;
+}
+.speed-bar span {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.speed-bar-cpu { background: #9aa4b8; }
+.speed-bar-gpu { background: #6b7585; }
+.speed-bar-highlight.speed-bar-cpu { background: #b3554e; }
+.speed-bar-highlight.speed-bar-gpu { background: #8c1515; }
+
+.speed-legend {
+  display: flex;
+  gap: 18px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+.legend-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-right: 5px;
+}
+.legend-cpu { background: #9aa4b8; }
+.legend-gpu { background: #6b7585; }
 
 .new-tag {
   display: inline-block;
@@ -470,7 +534,6 @@ hr.rule {
 /* Responsive */
 @media (max-width: 860px) {
   .stat-grid { grid-template-columns: repeat(2, 1fr); }
-  .results-grid { grid-template-columns: 1fr; }
   .code-tabs { grid-template-columns: 1fr; }
 }
 
